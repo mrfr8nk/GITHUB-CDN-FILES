@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GitHub CDN Uploader</title>
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Poppins Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* Reset & base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a0f1a;
+      color: #fff;
+      overflow: hidden;
+    }
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    /* Glassmorphic container */
+    .container {
+      position: relative;
+      max-width: 400px;
+      margin: 10vh auto;
+      padding: 2rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform-style: preserve-3d;
+      animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 0.6rem;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    input[type="file"]:hover { background: rgba(255,255,255,0.3); }
+
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #00bfff, #00008b);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05) translateZ(10px);
+      box-shadow: 0 0 10px rgba(0,191,255,0.7);
+    }
+
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1rem;
+      display: none;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(135deg, #00bfff, #00008b);
+      transition: width 0.3s ease;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .result input {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    .copy-btn {
+      align-self: flex-end;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #00bfff, #00008b);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .copy-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(0,191,255,0.7);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="container">
+    <h1>GitHub CDN Uploader</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="file" required />
+      <button type="submit">
+        <i class="fas fa-upload"></i> Upload
+      </button>
+    </form>
+
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+
+    <div class="result">
+      <input type="text" id="urlInput" readonly />
+      <button type="button" class="copy-btn" id="copyBtn">
+        <i class="fas fa-copy"></i> Copy URL
+      </button>
+    </div>
+  </div>
+
+  <footer>© 2025 Mr Frank™</footer>
+
+  <script>
+    /* Particles.js init */
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#00bfff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#00bfff',
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          out_mode: 'out'
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'grab' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 1 } },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    /* Upload with real progress */
+    const form = document.getElementById('uploadForm');
+    const progressBar = document.querySelector('.progress-bar');
+    const progressContainer = document.querySelector('.progress');
+    const resultEl = document.querySelector('.result');
+    const urlInput = document.getElementById('urlInput');
+    const copyBtn = document.getElementById('copyBtn');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload');
+
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+          const percent = ((e.loaded / e.total) * 100).toFixed(0);
+          progressBar.style.width = percent + '%';
+        }
+      });
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          progressContainer.style.display = 'none';
+          try {
+            const data = JSON.parse(xhr.responseText);
+            if (xhr.status === 200 && data.url) {
+              resultEl.style.display = 'flex';
+              urlInput.value = data.url;
+              Swal.fire({
+                icon: 'success',
+                title: 'Upload Complete',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+              });
+            } else {
+              throw new Error(data.error || 'Upload failed');
+            }
+          } catch (err) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: err.message
+            });
+          }
+        }
+      };
+
+      xhr.send(fd);
+    });
+
+    /* Copy URL */
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(urlInput.value).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Copied!',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      });
+    });
+  </script>
+</body>
+</html>
