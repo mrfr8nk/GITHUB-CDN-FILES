@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | Model Muse International</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #32cd32; /* Lime green */
+      --secondary-color: #000000;
+      --light-color: #ffffff;
+      --dark-color: #121212;
+      --text-color: #333333;
+      --light-gray: #f5f5f5;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
+      background-color: var(--light-color);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      background-color: var(--light-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+    
+    .logo span {
+      color: var(--primary-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--secondary-color);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    /* 404 Content */
+    .error-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 0;
+    }
+    
+    .error-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      color: var(--primary-color);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    
+    .error-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+    }
+    
+    .error-message {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: var(--text-color);
+    }
+    
+    .error-image {
+      max-width: 300px;
+      margin: 0 auto 30px;
+    }
+    
+    .error-image img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: var(--primary-color);
+      color: var(--light-color);
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .btn:hover {
+      background-color: transparent;
+      color: var(--primary-color);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      margin-left: 15px;
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-color);
+      color: var(--light-color);
+      padding: 30px 0;
+      text-align: center;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: var(--light-color);
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      font-size: 0.9rem;
+    }
+    
+    /* Coming Soon Variation */
+    .coming-soon .error-code {
+      color: #ff9f43;
+    }
+    
+    .coming-soon .btn {
+      background-color: #ff9f43;
+      border-color: #ff9f43;
+    }
+    
+    .coming-soon .btn:hover {
+      color: #ff9f43;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .error-code {
+        font-size: 80px;
+      }
+      
+      .error-title {
+        font-size: 1.5rem;
+      }
+      
+      .error-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn-outline {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="index.html" class="logo">Model<span>Muse</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="models.html">Models</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 404 Content -->
+  <main class="error-content">
+    <div class="container error-container">
+      <div class="error-image">
+        <img src="https://cdn.dribbble.com/users/1175431/screenshots/6188233/media/ad42057889c385dd8f84b8330f69269b.gif" alt="404 Error">
+      </div>
+      <h1 class="error-code">404</h1>
+      <h2 class="error-title">Page Not Found</h2>
+      <p class="error-message">The page you're looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+      <div class="error-buttons">
+        <a href="index.html" class="btn">Return Home</a>
+        <a href="contact.html" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Coming Soon Variation (Uncomment to use) -->
+  <!--
+  <main class="error-content coming-soon">
+    <div class="container error-container">
+      <div class="error-image">
+        <img src="https://cdn.dribbble.com/users/2185205/screenshots/5888735/media/99f613ece233b8e0a4f689f1b4a8a0a0.gif" alt="Coming Soon">
+      </div>
+      <h1 class="error-code">COMING SOON</h1>
+      <h2 class="error-title">We're Working On It</h2>
+      <p class="error-message">This page is currently under construction. We're working hard to bring you something amazing. Please check back soon!</p>
+      <div class="error-buttons">
+        <a href="index.html" class="btn">Return Home</a>
+        <a href="contact.html" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </main>
+  -->
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <p class="copyright">&copy; 2023 ModelMuse International. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // Randomly show coming soon variation (optional)
+    // Uncomment this if you want to randomly show the coming soon version
+    /*
+    if (Math.random() > 0.5) {
+      document.querySelector('.error-content').classList.add('coming-soon');
+      document.querySelector('.error-code').textContent = 'COMING SOON';
+      document.querySelector('.error-title').textContent = "We're Working On It";
+      document.querySelector('.error-message').textContent = "This page is currently under construction. We're working hard to bring you something amazing. Please check back soon!";
+    }
+    */
+  </script>
+</body>
+</html>
